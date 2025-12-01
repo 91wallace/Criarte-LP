@@ -36,6 +36,25 @@
         .smooth-scroll {
             scroll-behavior: smooth;
         }
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #d4af37;
+            width: 24px;
+            height: 24px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Seleção de Cor */
+        .color-option.selected {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #d4af37;
+        }
     </style>
 </head>
 <body class="bg-brand-cream text-brand-black font-sans smooth-scroll">
@@ -72,7 +91,6 @@
                         <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                             Chega de embalagens de plástico rasgadas e algodão exposto à poeira. Transforme sua bancada em um ambiente de SPA com nosso Kit Organizador Minimalista Canelado.
                         </p>
-                        <!-- Botão e avaliação removidos daqui -->
                     </div>
                 </main>
             </div>
@@ -123,35 +141,7 @@
         </div>
     </section>
 
-    <!-- Seção de Dores (Problema) -->
-    <section class="py-16 bg-brand-gray">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-extrabold text-gray-900 font-serif">Seu banheiro passa essa impressão?</h2>
-                <p class="mt-4 text-lg text-gray-500">A desorganização visual gera estresse inconsciente. Identifique-se:</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Dor 1 -->
-                <div class="bg-white p-8 rounded-lg shadow-sm text-center">
-                    <div class="text-red-500 text-4xl mb-4"><i class="fas fa-box-open"></i></div>
-                    <h3 class="text-xl font-bold mb-2">Embalagens Feias</h3>
-                    <p class="text-gray-600">Sacos de plástico rasgados que poluem a visão e caem o tempo todo.</p>
-                </div>
-                <!-- Dor 2 -->
-                <div class="bg-white p-8 rounded-lg shadow-sm text-center">
-                    <div class="text-red-500 text-4xl mb-4"><i class="fas fa-bacterium"></i></div>
-                    <h3 class="text-xl font-bold mb-2">Higiene Comprometida</h3>
-                    <p class="text-gray-600">Cotonetes e algodões expostos à umidade, poeira e bactérias do banheiro.</p>
-                </div>
-                <!-- Dor 3 -->
-                <div class="bg-white p-8 rounded-lg shadow-sm text-center">
-                    <div class="text-red-500 text-4xl mb-4"><i class="fas fa-eye-slash"></i></div>
-                    <h3 class="text-xl font-bold mb-2">Poluição Visual</h3>
-                    <p class="text-gray-600">Uma bancada bagunçada que tira a sensação de limpeza, mesmo após a faxina.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Seção removida: Gemini AI Features Section -->
 
     <!-- Showcase do Produto (Solução Restaurada) -->
     <section class="py-16 bg-white overflow-hidden">
@@ -269,9 +259,20 @@
                         <p class="mt-4">
                             <span class="text-3xl font-extrabold text-gray-900">R$ 24,90</span>
                         </p>
-                        <p class="mt-1 text-sm text-gray-500">1 Pote (Preto ou Branco)</p>
+                        <p class="mt-1 text-sm text-gray-500">1 Pote</p>
                         <p class="text-xs text-gray-400 mt-2">Para repor ou testar</p>
-                        <a href="#" class="mt-8 block w-full bg-gray-100 border border-transparent rounded-md py-2 text-sm font-semibold text-gray-900 text-center hover:bg-gray-200">Comprar 1 Unidade</a>
+                        
+                        <!-- Color Selector Single -->
+                        <div class="mt-6">
+                            <p class="text-sm font-bold text-gray-700 mb-2">Selecione a cor:</p>
+                            <div class="flex space-x-4 justify-center">
+                                <button onclick="selectColor(this, 'single', 'Preto')" class="color-option w-8 h-8 rounded-full bg-brand-black border border-gray-300 focus:outline-none transition-transform" title="Preto"></button>
+                                <button onclick="selectColor(this, 'single', 'Branco')" class="color-option w-8 h-8 rounded-full bg-gray-100 border border-gray-300 focus:outline-none transition-transform" title="Branco"></button>
+                            </div>
+                            <p id="selected-single" class="text-xs text-gray-500 mt-2 h-4">Nenhuma cor selecionada</p>
+                        </div>
+
+                        <a href="#" class="mt-4 block w-full bg-gray-100 border border-transparent rounded-md py-2 text-sm font-semibold text-gray-900 text-center hover:bg-gray-200">Comprar 1 Unidade</a>
                     </div>
                 </div>
 
@@ -288,11 +289,22 @@
                         <p class="mt-1 text-sm text-green-600 font-bold">2 Unidades da mesma cor</p>
                         <p class="text-xs text-gray-400 mt-2 line-through">De R$ 49,80</p>
                         <p class="text-xs text-gray-500">Economize R$ 10,00</p>
-                        <ul class="mt-6 space-y-3 text-sm text-gray-500">
+                        
+                        <!-- Color Selector Double -->
+                        <div class="mt-6">
+                            <p class="text-sm font-bold text-gray-700 mb-2">Selecione a cor do par:</p>
+                            <div class="flex space-x-4 justify-center">
+                                <button onclick="selectColor(this, 'double', 'Preto')" class="color-option w-8 h-8 rounded-full bg-brand-black border border-gray-300 focus:outline-none transition-transform" title="2 Pretos"></button>
+                                <button onclick="selectColor(this, 'double', 'Branco')" class="color-option w-8 h-8 rounded-full bg-gray-100 border border-gray-300 focus:outline-none transition-transform" title="2 Brancos"></button>
+                            </div>
+                            <p id="selected-double" class="text-xs text-gray-500 mt-2 h-4">Preto selecionado (Padrão)</p>
+                        </div>
+
+                        <ul class="mt-4 space-y-3 text-sm text-gray-500">
                             <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Ideal: Cotonete + Algodão</li>
-                            <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Preto ou Branco</li>
+                            <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Acabamento Premium</li>
                         </ul>
-                        <a href="#" class="mt-8 block w-full bg-brand-black border border-transparent rounded-md py-3 text-sm font-bold text-white text-center hover:bg-gray-800 animate-pulse-slow">
+                        <a href="#" class="mt-6 block w-full bg-brand-black border border-transparent rounded-md py-3 text-sm font-bold text-white text-center hover:bg-gray-800 animate-pulse-slow">
                             COMPRAR AGORA
                         </a>
                     </div>
@@ -307,7 +319,16 @@
                         </p>
                         <p class="mt-1 text-sm text-gray-500">1 Preto + 1 Branco</p>
                         <p class="text-xs text-gray-400 mt-2">Contraste Moderno</p>
-                        <ul class="mt-6 space-y-3 text-sm text-gray-500">
+
+                         <!-- Visual Indicator Only -->
+                         <div class="mt-6 flex justify-center items-center space-x-2 opacity-80 cursor-default">
+                             <div class="w-6 h-6 rounded-full bg-brand-black"></div>
+                             <span class="text-gray-400">+</span>
+                             <div class="w-6 h-6 rounded-full bg-gray-100 border border-gray-300"></div>
+                         </div>
+                         <p class="text-xs text-center text-gray-400 mt-2">Kit Fixo (Sem troca)</p>
+
+                        <ul class="mt-4 space-y-3 text-sm text-gray-500">
                             <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Para casais com gostos diferentes</li>
                             <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Separação visual fácil</li>
                         </ul>
@@ -351,8 +372,31 @@
         </div>
     </footer>
 
-    <!-- Script de Urgência (Timer) -->
+    <!-- Scripts -->
     <script>
+        // Color Selection Logic
+        function selectColor(btn, type, color) {
+            // Find parent container
+            const container = btn.parentElement;
+            
+            // Remove 'selected' from siblings
+            const buttons = container.getElementsByClassName('color-option');
+            for(let b of buttons) {
+                b.classList.remove('selected');
+            }
+            
+            // Add 'selected' to clicked
+            btn.classList.add('selected');
+            
+            // Update Text
+            const textId = type === 'single' ? 'selected-single' : 'selected-double';
+            const textElement = document.getElementById(textId);
+            textElement.textContent = color + ' selecionado';
+            textElement.classList.add('text-brand-black', 'font-semibold');
+            textElement.classList.remove('text-gray-500');
+        }
+
+        // Timer Logic
         function startTimer(duration, display) {
             var timer = duration, minutes, seconds;
             setInterval(function () {
@@ -365,7 +409,7 @@
                 display.textContent = minutes + ":" + seconds;
 
                 if (--timer < 0) {
-                    timer = duration; // Reinicia o timer para manter o senso de urgência (loop)
+                    timer = duration;
                 }
             }, 1000);
         }
@@ -374,6 +418,10 @@
             var fifteenMinutes = 60 * 15,
                 display = document.querySelector('#countdown');
             startTimer(fifteenMinutes, display);
+            
+             // Initialize default selection for Double Kit
+             const doubleBlackBtn = document.querySelector("button[onclick*=\"'double', 'Preto'\"]");
+             if(doubleBlackBtn) selectColor(doubleBlackBtn, 'double', 'Preto');
         };
     </script>
 </body>
