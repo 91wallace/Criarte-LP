@@ -125,7 +125,7 @@
             </div>
         </div>
     </header>
-
+    
     <!-- Showcase do Produto (Solução Restaurada) -->
     <section class="py-16 bg-white overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -282,10 +282,11 @@
                                 <button onclick="selectColor(this, 'single', 'Preto')" class="color-option w-8 h-8 rounded-full bg-brand-black border border-gray-300 focus:outline-none transition-transform" title="Preto"></button>
                                 <button onclick="selectColor(this, 'single', 'Branco')" class="color-option w-8 h-8 rounded-full bg-gray-100 border border-gray-300 focus:outline-none transition-transform" title="Branco"></button>
                             </div>
-                            <p id="selected-single" class="text-xs text-gray-500 mt-2 h-4">Nenhuma cor selecionada</p>
+                            <p id="selected-single" class="text-xs text-gray-500 mt-2 h-4">Preto selecionado</p>
                         </div>
 
-                        <a href="#" class="mt-4 block w-full bg-gray-100 border border-transparent rounded-md py-2 text-sm font-semibold text-gray-900 text-center hover:bg-gray-200">Comprar 1 Unidade</a>
+                        <!-- ID ADICIONADO AQUI -->
+                        <a href="#" id="buy-btn-single" class="mt-4 block w-full bg-gray-100 border border-transparent rounded-md py-2 text-sm font-semibold text-gray-900 text-center hover:bg-gray-200">Comprar 1 Unidade</a>
                     </div>
                 </div>
 
@@ -318,7 +319,8 @@
                             <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Acabamento Premium</li>
                             <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Envio imediato</li>
                         </ul>
-                        <a href="#" class="mt-6 block w-full bg-brand-black border border-transparent rounded-md py-3 text-sm font-bold text-white text-center hover:bg-gray-800 animate-pulse-slow">
+                        <!-- ID ADICIONADO AQUI -->
+                        <a href="#" id="buy-btn-double" class="mt-6 block w-full bg-brand-black border border-transparent rounded-md py-3 text-sm font-bold text-white text-center hover:bg-gray-800 animate-pulse-slow">
                             COMPRAR AGORA
                         </a>
                     </div>
@@ -341,7 +343,7 @@
                                 <button onclick="selectColor(this, 'quad', 'Preto')" class="color-option w-8 h-8 rounded-full bg-brand-black border border-gray-300 focus:outline-none transition-transform" title="4 Pretos"></button>
                                 <button onclick="selectColor(this, 'quad', 'Branco')" class="color-option w-8 h-8 rounded-full bg-gray-100 border border-gray-300 focus:outline-none transition-transform" title="4 Brancos"></button>
                             </div>
-                            <p id="selected-quad" class="text-xs text-gray-500 mt-2 h-4">Nenhuma cor selecionada</p>
+                            <p id="selected-quad" class="text-xs text-gray-500 mt-2 h-4">Preto selecionado</p>
                         </div>
 
                         <ul class="mt-4 space-y-3 text-sm text-gray-500">
@@ -349,7 +351,8 @@
                             <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Ótimo para decoração</li>
                             <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Envio imediato</li>
                         </ul>
-                        <a href="#" class="mt-8 block w-full bg-brand-black border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-gray-800">
+                        <!-- ID ADICIONADO AQUI -->
+                        <a href="#" id="buy-btn-quad" class="mt-8 block w-full bg-brand-black border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-gray-800">
                             COMPRAR AGORA
                         </a>
                     </div>
@@ -389,6 +392,23 @@
 
     <!-- Scripts -->
     <script>
+        // CONFIGURAÇÃO DOS LINKS DE CHECKOUT (SUBSTITUA AQUI)
+        const checkoutLinks = {
+            single: {
+                preto: "https://seulink.com/checkout/1-unidade-preto",
+                branco: "https://seulink.com/checkout/1-unidade-branco"
+            },
+            double: {
+                preto: "https://seulink.com/checkout/2-unidades-preto",
+                branco: "https://seulink.com/checkout/2-unidades-branco"
+            },
+            quad: {
+                // Links específicos para o kit de 4 unidades nas cores preto e branco
+                preto: "https://seulink.com/checkout/4-unidades-preto", 
+                branco: "https://seulink.com/checkout/4-unidades-branco" 
+            }
+        };
+
         // Color Selection Logic
         function selectColor(btn, type, color) {
             // Find parent container
@@ -405,15 +425,39 @@
             
             // Update Text
             let textId;
-            if (type === 'single') textId = 'selected-single';
-            else if (type === 'double') textId = 'selected-double';
-            else if (type === 'quad') textId = 'selected-quad'; // Added logic for Quad kit
+            let buyBtnId;
+            let linkKey;
+
+            if (type === 'single') {
+                textId = 'selected-single';
+                buyBtnId = 'buy-btn-single';
+                linkKey = 'single';
+            } else if (type === 'double') {
+                textId = 'selected-double';
+                buyBtnId = 'buy-btn-double';
+                linkKey = 'double';
+            } else if (type === 'quad') {
+                textId = 'selected-quad';
+                buyBtnId = 'buy-btn-quad';
+                linkKey = 'quad';
+            }
             
             const textElement = document.getElementById(textId);
             if(textElement) {
                 textElement.textContent = color + ' selecionado';
                 textElement.classList.add('text-brand-black', 'font-semibold');
                 textElement.classList.remove('text-gray-500');
+            }
+
+            // Update Link Href Logic
+            const buyBtn = document.getElementById(buyBtnId);
+            if (buyBtn && checkoutLinks[linkKey]) {
+                const colorKey = color.toLowerCase(); // 'Preto' -> 'preto'
+                if (checkoutLinks[linkKey][colorKey]) {
+                    buyBtn.href = checkoutLinks[linkKey][colorKey];
+                    // Visual feedback opcional (piscar botão ou algo assim)
+                    console.log(`Link atualizado para ${type} ${color}: ${buyBtn.href}`);
+                }
             }
         }
 
@@ -480,9 +524,15 @@
                 display = document.querySelector('#countdown');
             startTimer(fifteenMinutes, display);
             
-             // Initialize default selection for Double Kit
+             // Initialize Default Selections (Black by default for better UX)
+             const singleBlackBtn = document.querySelector("button[onclick*=\"'single', 'Preto'\"]");
+             if(singleBlackBtn) selectColor(singleBlackBtn, 'single', 'Preto');
+
              const doubleBlackBtn = document.querySelector("button[onclick*=\"'double', 'Preto'\"]");
              if(doubleBlackBtn) selectColor(doubleBlackBtn, 'double', 'Preto');
+
+             const quadBlackBtn = document.querySelector("button[onclick*=\"'quad', 'Preto'\"]");
+             if(quadBlackBtn) selectColor(quadBlackBtn, 'quad', 'Preto');
 
              // Start Carousel
              slideInterval = setInterval(nextSlide, 3500);
