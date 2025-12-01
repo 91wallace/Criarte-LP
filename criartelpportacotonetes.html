@@ -310,30 +310,32 @@
                     </div>
                 </div>
 
-                 <!-- Opção 3: Kit Misto -->
+                 <!-- Opção 3: Kit 4 Unidades (Substituindo o Misto) -->
                  <div class="bg-white border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 flex flex-col justify-between">
                     <div class="p-6">
-                        <h2 class="text-lg leading-6 font-medium text-gray-900">Kit Ying-Yang</h2>
+                        <h2 class="text-lg leading-6 font-medium text-gray-900">Kit Casa Toda</h2>
                         <p class="mt-4">
-                            <span class="text-3xl font-extrabold text-gray-900">R$ 39,90</span>
+                            <span class="text-3xl font-extrabold text-gray-900">R$ 74,90</span>
                         </p>
-                        <p class="mt-1 text-sm text-gray-500">1 Preto + 1 Branco</p>
-                        <p class="text-xs text-gray-400 mt-2">Contraste Moderno</p>
+                        <p class="mt-1 text-sm text-gray-500">4 Potes (2 Kits Duplos)</p>
+                        <p class="text-xs text-green-600 font-bold mt-2">Oferta Especial</p>
 
-                         <!-- Visual Indicator Only -->
-                         <div class="mt-6 flex justify-center items-center space-x-2 opacity-80 cursor-default">
-                             <div class="w-6 h-6 rounded-full bg-brand-black"></div>
-                             <span class="text-gray-400">+</span>
-                             <div class="w-6 h-6 rounded-full bg-gray-100 border border-gray-300"></div>
-                         </div>
-                         <p class="text-xs text-center text-gray-400 mt-2">Cores </p>
+                        <!-- Color Selector Quad -->
+                        <div class="mt-6">
+                            <p class="text-sm font-bold text-gray-700 mb-2">Selecione a cor:</p>
+                            <div class="flex space-x-4 justify-center">
+                                <button onclick="selectColor(this, 'quad', 'Preto')" class="color-option w-8 h-8 rounded-full bg-brand-black border border-gray-300 focus:outline-none transition-transform" title="4 Pretos"></button>
+                                <button onclick="selectColor(this, 'quad', 'Branco')" class="color-option w-8 h-8 rounded-full bg-gray-100 border border-gray-300 focus:outline-none transition-transform" title="4 Brancos"></button>
+                            </div>
+                            <p id="selected-quad" class="text-xs text-gray-500 mt-2 h-4">Nenhuma cor selecionada</p>
+                        </div>
 
                         <ul class="mt-4 space-y-3 text-sm text-gray-500">
-                            <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Para casais com gostos diferentes</li>
-                            <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Separação visual fácil</li>
+                            <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Para 2 Banheiros</li>
+                            <li class="flex"><i class="fas fa-check text-green-500 mr-2"></i> Estoque garantido</li>
                         </ul>
                         <a href="#" class="mt-8 block w-full bg-brand-black border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-gray-800">
-                            COMPRAR AGORA
+                            Comprar Kit 4
                         </a>
                     </div>
                 </div>
@@ -344,7 +346,7 @@
             <div class="mt-12 text-center max-w-2xl mx-auto">
                 <div class="flex items-center justify-center mb-4">
                     <i class="fas fa-lock text-brand-gold text-2xl mr-3"></i>
-                    <span class="font-bold text-gray-700">Garantia de Satisfação de 14 Dias</span>
+                    <span class="font-bold text-gray-700">Garantia de Satisfação de 7 Dias</span>
                 </div>
                 <p class="text-gray-500 text-sm">Se você não gostar do produto ou achar que ele não combinou com seu banheiro, devolvemos 100% do seu dinheiro. Sem perguntas.</p>
             </div>
@@ -389,11 +391,17 @@
             btn.classList.add('selected');
             
             // Update Text
-            const textId = type === 'single' ? 'selected-single' : 'selected-double';
+            let textId;
+            if (type === 'single') textId = 'selected-single';
+            else if (type === 'double') textId = 'selected-double';
+            else if (type === 'quad') textId = 'selected-quad'; // Added logic for Quad kit
+            
             const textElement = document.getElementById(textId);
-            textElement.textContent = color + ' selecionado';
-            textElement.classList.add('text-brand-black', 'font-semibold');
-            textElement.classList.remove('text-gray-500');
+            if(textElement) {
+                textElement.textContent = color + ' selecionado';
+                textElement.classList.add('text-brand-black', 'font-semibold');
+                textElement.classList.remove('text-gray-500');
+            }
         }
 
         // Timer Logic
